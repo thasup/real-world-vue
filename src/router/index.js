@@ -5,11 +5,12 @@ import EventDetails from '../views/event/EventDetails.vue'
 import EventRegister from '../views/event/EventRegister.vue'
 import EventEdit from '../views/event/EventEdit.vue'
 import AboutView from '../views/AboutView.vue'
+import EventCreate from '../views/EventCreate.vue'
 import NotFound from '@/views/NotFound.vue'
 import NetworkError from '@/views/NetworkError.vue'
 import NProgress from "nprogress"
-import EventService from '@/services/EventService'
-import GStore from "@/store"
+import EventService from '@/services/EventService.js'
+import GStore from "@/services/EventReactive.js"
 
 const routes = [
   {
@@ -67,6 +68,11 @@ const routes = [
     alias: "/about"
   },
   {
+    path: '/create',
+    name: 'EventCreate',
+    component: EventCreate,
+  },
+  {
     path: '/:catchAll(.*)',
     name: 'NotFound',
     component: NotFound
@@ -86,7 +92,13 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+  scrollBehavior(savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    }
+    return { top: 0 }
+  }
 })
 
 router.beforeEach(() => {
