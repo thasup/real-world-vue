@@ -5,6 +5,7 @@ import EventDetails from '../views/event/EventDetails.vue'
 import EventRegister from '../views/event/EventRegister.vue'
 import EventEdit from '../views/event/EventEdit.vue'
 import AboutView from '../views/AboutView.vue'
+import TodoView from '../views/TodoView.vue'
 import NotFound from '@/views/NotFound.vue'
 import NetworkError from '@/views/NetworkError.vue'
 import NProgress from "nprogress"
@@ -25,16 +26,16 @@ const routes = [
     component: EventLayout,
     beforeEnter: to => {
       return EventService.getEvent(to.params.id)
-      .then(response => {
-        GStore.event = response.data
-      })
-      .catch(error => {
-        if (error.response && error.response.status == 404) {
-          return { name: '404Resource', params: { resource: 'event' } }
-        } else {
-          return { name: 'NetworkError' }
-        }
-      })
+        .then(response => {
+          GStore.event = response.data
+        })
+        .catch(error => {
+          if (error.response && error.response.status == 404) {
+            return { name: '404Resource', params: { resource: 'event' } }
+          } else {
+            return { name: 'NetworkError' }
+          }
+        })
     },
     children: [
       {
@@ -65,6 +66,11 @@ const routes = [
     name: 'About',
     component: AboutView,
     alias: "/about"
+  },
+  {
+    path: '/todo',
+    name: 'Todo',
+    component: TodoView,
   },
   {
     path: '/:catchAll(.*)',
